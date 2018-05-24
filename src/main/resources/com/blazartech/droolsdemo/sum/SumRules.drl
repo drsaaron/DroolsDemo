@@ -1,0 +1,34 @@
+package com.blazartech.droolsdemo.sum;
+
+dialect 'mvel';
+
+global Sum sum;
+global org.slf4j.Logger logger;
+
+rule 'Add small amount'
+    when
+        addInstance:Add(value >= 0)
+    then
+        logger.info("adding small amount");
+
+        sum.setValue(sum.getValue() + addInstance.getValue());
+end
+
+rule 'Add larger amount'
+    when
+        addInstance: Add(value > 0 && value < 1000)
+    then
+        logger.info('adding larger amount');
+        sum.setValue(sum.value + 2 * addInstance.value);
+end
+
+rule 'Add depending on current'
+    when
+        addInstance: Add(value > 0 && value < 1000) 
+    then
+        logger.info("adding depending on current " + sum.value);
+
+        if (sum.value < addInstance.value) {
+            sum.setValue(sum.value + 3 * addInstance.value);
+        } 
+end
