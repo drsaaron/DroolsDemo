@@ -1,0 +1,51 @@
+import com.blazartech.droolsdemo.transaction.Transaction;
+
+global com.blazartech.droolsdemo.transaction.Eligibility eligibility;
+global org.slf4j.Logger logger;
+
+rule 'Eligible to Calculate - Commission'
+    when
+        transactionInstance:Transaction(compensationProgram == 1)
+    then
+        logger.info("commission eligibility to calculate");
+
+        if (transactionInstance.getDsbNumber() == "0ABCDE") {
+            eligibility.setEligibleToCalculate(true);
+        } else {
+            eligibility.setEligibleToCalculate(false);
+        }
+end
+
+rule 'Eligible to Produce - Commission'
+    when
+        transactionInstance:Transaction(compensationProgram == 1)
+    then
+        logger.info("commission eligibility to calculate");
+
+        if (transactionInstance.getDsbNumber() == "0ABCDE") {
+            eligibility.setEligibleToProduce(true);
+        } else {
+            eligibility.setEligibleToProduce(false);
+        }
+end
+
+rule 'Eligible to Distribute - Commission'
+    when
+        transactionInstance:Transaction(compensationProgram == 1)
+    then
+        logger.info("commission eligibility to calculate");
+        eligibility.setEligibleToDistribute(true);
+end
+
+rule 'Eligible to Calculate - Margin'
+    when
+        transactionInstance:Transaction(compensationProgram == 2)
+    then
+        logger.info("margin eligibility to calculate");
+
+        if (transactionInstance.getDsbNumber() == "0ABCDE") {
+            eligibility.setEligibleToCalculate(false);
+        } else {
+            eligibility.setEligibleToCalculate(true);
+        }
+end

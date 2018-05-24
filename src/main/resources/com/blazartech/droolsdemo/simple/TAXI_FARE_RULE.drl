@@ -1,0 +1,25 @@
+import com.blazartech.droolsdemo.simple.TaxiRide;
+
+global com.blazartech.droolsdemo.simple.Fare rideFare;
+global org.slf4j.Logger logger;
+
+dialect  "mvel"
+ 
+rule "Calculate Taxi Fare - Short Distance - Daytime"
+    when
+        taxiRideInstance:TaxiRide(isNightSurcharge == false && distanceInMile < 10);
+    then
+        logger.info("short distance day");
+        rideFare.setNightSurcharge(0);
+        rideFare.setRideFare(70);
+end
+
+rule "Calculate Taxi Fare - Long Distance - Daytime"
+    when
+        taxiRideInstance:TaxiRide(isNightSurcharge == false && distanceInMile >= 10);
+    then
+        logger.info("long distance day");
+        rideFare.setNightSurcharge(0);
+        rideFare.setRideFare(100);
+end
+
