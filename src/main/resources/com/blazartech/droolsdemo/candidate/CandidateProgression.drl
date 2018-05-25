@@ -1,0 +1,43 @@
+package com.blazartech.droolsdemo.candidate;
+
+//global Candidate candidate;
+global org.slf4j.Logger logger;
+
+dialect 'mvel';
+dialect 'java';
+
+rule 'Schedule For Testing'
+when
+	candidate: Candidate(status=='Submitted',yrsExperience >= 10, 
+                            ((skill.name == 'java' && skill.yrsExperience >= 5) || (skill.name == 'C#' && skill.yrsExperience >= 5)));
+then
+        logger.info('updating to testing.');
+	candidate.setStatus('Testing');
+end
+
+rule 'Schedule For Interview'
+when
+	candidate: Candidate(status=='Testing', 
+                    testScore.theory > .8, testScore.syntax > .6, testScore.problemSolving > .8);
+then
+        logger.info('updating to interview');
+	candidate.setStatus('Interview');
+end
+
+rule 'Schedule For Project'
+when
+	candidate: Candidate(status=='Interview', 	
+                    interviewScore.speakExperience > .9, interviewScore.problemSolving > .8, interviewScore.communication > .9 );
+then
+        logger.info("updating to Project");
+	candidate.setStatus('Project');
+end
+
+rule 'Schedule For Hiring'
+when
+	candidate: Candidate(status=='Project', 
+                    projectScore.completeness > .8, projectScore.architecture > .9, projectScore.gui > .7 );
+then
+        logger.info("hiring!");
+	candidate.setStatus('Hiring');
+end
