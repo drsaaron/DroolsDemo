@@ -9,7 +9,7 @@ dialect 'java';
 rule 'Schedule For Testing'
 when
 	candidate: Candidate(status=='Submitted',yrsExperience >= 10, 
-                            ((skill.name == 'java' && skill.yrsExperience >= 5) || (skill.name == 'C#' && skill.yrsExperience >= 5)));
+                            skill.name in ('java', 'C#'), skill.yrsExperience >= 5);
 then
         logger.info('updating to testing.');
 	candidate.setStatus('Testing');
