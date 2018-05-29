@@ -1,5 +1,4 @@
-import com.blazartech.droolsdemo.order.Order;
-import com.blazartech.droolsdemo.order.OrderItem;
+package com.blazartech.droolsdemo.order;
 
 global org.slf4j.Logger logger;
 
