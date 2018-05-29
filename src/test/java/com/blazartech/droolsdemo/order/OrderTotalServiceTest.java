@@ -90,6 +90,7 @@ public class OrderTotalServiceTest {
         service.determineOrderTotal(order);
 
         assertFalse(order.isDiscountApplied());
+        assertEquals(75f, order.getTotal(), 0.0);
     }
     
     @Test
