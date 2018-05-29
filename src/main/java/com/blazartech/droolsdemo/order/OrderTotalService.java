@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.blazartech.droolsdemo.sum;
+package com.blazartech.droolsdemo.order;
 
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
@@ -14,32 +14,29 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 /**
- *
+ * from https://docs.jboss.org/drools/release/5.2.0.Final/drools-expert-docs/html/ch05.html#d0e3962
+ * 
  * @author AAR1069
  */
 @Service
-public class SumService {
+public class OrderTotalService {
     
-    private static final Logger logger = LoggerFactory.getLogger(SumService.class);
+    private static final Logger logger = LoggerFactory.getLogger(OrderTotalService.class);
     
     @Autowired
-    @Qualifier("sumRulesContainer")
+    @Qualifier("orderRulesContainer")
     private KieContainer kieContainer;
     
-    public Sum addValues(int initialValue, int addedValue) {
+    public void determineOrderTotal(Order order) {
+        
         KieSession kieSession = kieContainer.newKieSession();
         
-        Sum s = new Sum();
-        s.setValue(initialValue);
-        
-        Add a = new Add();
-        a.setValue(addedValue);
-
-        kieSession.setGlobal("sum", s);
         kieSession.setGlobal("logger", logger);
-        kieSession.insert(a);
+        kieSession.insert(order);
+        order.getOrderItems().forEach((item) -> {
+            kieSession.insert(item);
+        });
         kieSession.fireAllRules();
         kieSession.dispose();
-        return s;
     }
 }

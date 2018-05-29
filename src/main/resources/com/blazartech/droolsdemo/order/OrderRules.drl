@@ -1,0 +1,36 @@
+import com.blazartech.droolsdemo.order.Order;
+import com.blazartech.droolsdemo.order.OrderItem;
+
+global org.slf4j.Logger logger;
+
+dialect 'mvel';
+dialect 'java';
+
+rule "Add up total"
+when
+    $order: Order()
+    $total : Number( ) 
+             from accumulate( OrderItem( order == $order, $value : value ),
+                              init( double total = 0; ),
+                              action( total += $value; ),
+                              reverse( total -= $value; ),
+                              result( total ) )
+then
+    logger.info("total = " + $total);
+end
+
+rule "Apply 10% discount to orders over US$ 100,00"
+when
+    $order : Order()
+    $total : Number( doubleValue > 100 ) 
+             from accumulate( OrderItem( order == $order, $value : value ),
+                              init( double total = 0; ),
+                              action( total += $value; ),
+                              reverse( total -= $value; ),
+                              result( total ) )
+then
+    // apply discount to $order
+    logger.info("applying discount");
+    $order.setDiscountApplied(true);
+    $order.setTotal($total * .9);
+end
