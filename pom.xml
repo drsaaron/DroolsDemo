@@ -40,6 +40,17 @@
         </dependency>
         
         <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-ruleunits-engine</artifactId>
+            <version>8.29.0.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-model-compiler</artifactId>
+            <version>8.29.0.Final</version>
+        </dependency>
+        
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
