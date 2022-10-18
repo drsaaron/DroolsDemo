@@ -4,8 +4,6 @@
  */
 package com.blazartech.droolsdemo.measurement;
 
-import org.drools.ruleunits.api.RuleUnitData;
-
 /**
  *
  * @author aar1069
