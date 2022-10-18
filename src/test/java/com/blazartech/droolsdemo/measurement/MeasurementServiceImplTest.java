@@ -70,10 +70,9 @@ public class MeasurementServiceImplTest {
     public void testGetControlSet() {
         logger.info("getControlSet");
         
-        Set<String> expResult = null;
         Set<String> result = instance.getControlSet();
-
-        assertEquals(expResult, result);
+        
+        assertEquals(2, result.size());
     }
     
 }

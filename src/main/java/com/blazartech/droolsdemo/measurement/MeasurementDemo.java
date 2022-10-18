@@ -27,6 +27,7 @@ public class MeasurementDemo implements CommandLineRunner {
     public void run(String... args) throws Exception {
         logger.info("getting control set");
         Set<String> controlSet = measurementService.getControlSet();
+        logger.info("controle set = " + controlSet);
         controlSet.forEach(s -> logger.info("control set: " + s));
     }
     
